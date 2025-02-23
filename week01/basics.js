@@ -1,0 +1,9 @@
+"use strict";
+
+// TYPES AND VARIABLES
+
+// EXPRESSIONS
+
+// STRINGS
+
+// ARRAYS
