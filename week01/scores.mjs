@@ -21,7 +21,14 @@ console.log(better_scores)
 //     better_scores.splice(min_pos,1)
 // }
 
-better_scores.sort((a, b) => a - b)
+// function diff(a, b) {
+//     let d = a - b
+//     return d
+// }
+
+let diff = (a,b) => a-b
+
+better_scores.sort(diff)
 // better_scores.splice(0,2)
 
 better_scores = better_scores.slice(2)
