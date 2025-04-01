@@ -6,7 +6,7 @@ Goal: **Create a React application that generates a similar page, by exploiting 
 
 ## Creating a project
 
-Create a new React project called **react-qa**. Insert into `App.jsx` the code for loading a 'fake' set of questions and answers in JavaScript objects. For those objects, re-use the same data structures created for Exercises 3-4.
+Create a new React project called **qa-client**. Insert into `App.jsx` the code for loading a 'fake' set of questions and answers in JavaScript objects. For those objects, re-use the same data structures created for Exercises 3-4.
 
 ## Defining the component tree
 
