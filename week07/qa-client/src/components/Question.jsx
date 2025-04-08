@@ -1,4 +1,4 @@
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col, Badge } from "react-bootstrap"
 
 function QuestionDisplay(props) {
 
@@ -6,9 +6,9 @@ function QuestionDisplay(props) {
 
     // props.question is a Question object
     return <Container fluid>
-        <Row>
+        <Row >
             <Col as='h2'>Question number {q.id}</Col>
-            <Col>Asked by: {q.email}</Col>
+            <Col>Asked by: <Badge pill>{q.email}</Badge></Col>
         </Row>
         <Row>
             <Col>{q.text}</Col>
