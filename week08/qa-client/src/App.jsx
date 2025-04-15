@@ -7,6 +7,8 @@ import { Question, Answer } from './models/QAModels.mjs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react'
 
+import LanguageContext from './components/LanguageContext'
+
 function App() {
 
   // Fake Database of questions
@@ -15,9 +17,18 @@ function App() {
   fakeAnswers.push(new Answer(10, 'ok', 'a@b.com', 100, '2025-04-01'))
   fakeAnswers.push(new Answer(11, 'it crashes', 'c@b.com', 101, '2025-03-31'))
 
+  // Context state
+  const [lang, setLang] = useState('en')
+  // useState({ lang: 'en', toggle : toggleLang})
+
   // Application state
   const [question, setQuestion] = useState(fakeQuestion)
   const [answers, setAnswers] = useState(fakeAnswers)
+
+  // Handler function for mananging the language
+  const toggleLang = () => {
+    setLang(oldLang => oldLang == 'en' ? 'it' : 'en')
+  }
 
   // Handler functions for managing the 'answers' state
   const delAnswer = (id) => {
@@ -46,12 +57,15 @@ function App() {
   // we could store the different actions into one object, so that it's easier to pass down
   // and used like props.actions.editAnswer
 
-  return (
+  return (  
     <>
-      <Header />
-      <QuestionDisplay question={question} />
-      <AnswersDisplay answers={answers} delAnswer={delAnswer} upVote={upVote} addAnswer={addAnswer} editAnswer={editAnswer} />
-      <Footer />
+      <LanguageContext.Provider value={lang}> 
+        {/* alternative: { lang: lang, toggle : toggleLang} */}
+        <Header lang={lang} toggleLang={toggleLang} />
+        <QuestionDisplay question={question} />
+        <AnswersDisplay answers={answers} delAnswer={delAnswer} upVote={upVote} addAnswer={addAnswer} editAnswer={editAnswer} />
+        <Footer />
+      </LanguageContext.Provider>
     </>
   )
 }
