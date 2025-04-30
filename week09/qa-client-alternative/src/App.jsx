@@ -56,7 +56,7 @@ function App() {
       const newId = Math.max(...prevAnswers.map(a => a.id)) + 1
       return [...prevAnswers, { ...ans, id: newId }]
     })
-    
+
   }
 
   const editAnswer = (ans) => {
@@ -95,16 +95,13 @@ function App() {
                 <Footer />
               </>
             } >
-
+              <Route path="add" element={<AddEditAnswerForm_Uncontrolled
+                addAnswer={addAnswer}
+              />} />
+              <Route path="edit/:aid" element={<AddEditAnswerForm_Uncontrolled
+                addAnswer={addAnswer} editAnswer={editAnswer} answers={answers} />} />
             </Route>
-            {/* Add answer form in a separate page and questions are not displayed. */}
-            <Route path="question/:qid/add" element={<AddEditAnswerForm_Uncontrolled
-              addAnswer={addAnswer}
-            />} />
 
-            {/* Edit answer form in a separate page and questions are not displayed. */}
-            <Route path="question/:qid/edit/:aid" element={<AddEditAnswerForm_Uncontrolled
-              addAnswer={addAnswer} editAnswer={editAnswer} answers={answers} />} />
           </Route>
 
           {/* Page for unknown URL */}

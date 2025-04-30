@@ -3,7 +3,7 @@ import { Table, Button, Form } from "react-bootstrap"
 import { ArrowUpSquare, Pencil, Trash } from "react-bootstrap-icons"
 import { Answer } from "../models/QAModels.mjs"
 import dayjs from "dayjs"
-import { useNavigate, useParams, Link } from "react-router"
+import { useNavigate, useParams, useLocation, Outlet } from "react-router"
 
 
 
@@ -11,12 +11,16 @@ function AnswersDisplay(props) {
 
     //Hook to navigate to different routes
     const navigate = useNavigate();
+    // Hook to get current route path
+    const location = useLocation();
     //Hook to extract the parameters from the current URL
     const params = useParams();
     //Extracting the question ID from the URL parameters
     const questionId = params.qid;
 
-    
+    // Check if the current path ends with /add or contains /edit/
+    const isFormPage = location.pathname.endsWith("/add") || location.pathname.includes("/edit");
+
     const ans = props.answers
     return <Table>
         <thead>
@@ -32,14 +36,17 @@ function AnswersDisplay(props) {
             {ans.map(a => <AnswerRow key={a.id} answer={a} {...props} delAnswer={props.delAnswer} upVote={props.upVote} />)}
         </tbody>
         <tfoot>
-            <tr><td colSpan={5}>{/*
-                <AddEditAnswerForm_Uncontrolled key={editing ? editing.id : -1} mode={mode} editing={editing} addAnswer={props.addAnswer} editAnswer={props.editAnswer} switchToAdd={switchToAdd} />
-                */}
-                {/* Button to navigate to the add answer page */}
-                <Button variant="primary" onClick={()=>{navigate(`/question/${questionId}/add`)}} >Add new Answer</Button>
-                </td></tr>
-        
-                </tfoot>
+            <tr><td colSpan={5}>
+                {/* Only show button if not on add/edit form page */}
+                {!isFormPage && (
+                    <Button variant="primary" onClick={() => navigate(`/question/${questionId}/add`)}>
+                        Add new Answer
+                    </Button>
+                )}
+                <Outlet/>
+            </td></tr>
+
+        </tfoot>
     </Table>
 }
 
@@ -48,7 +55,7 @@ function AnswerRow(props) {
 
     return <tr>
         <AnswerRowData answer={a} />
-        <AnswerActionButtons answer={a} delAnswer={props.delAnswer} upVote={props.upVote}  />
+        <AnswerActionButtons answer={a} delAnswer={props.delAnswer} upVote={props.upVote} />
     </tr>
 }
 
@@ -72,7 +79,7 @@ function AnswerActionButtons(props) {
     return <td>
         <Button variant='primary' onClick={() => props.upVote(props.answer.id)}><ArrowUpSquare /></Button> <></>
         { /* Button to navigate to the edit answer page with URL /question/:qid/edit/:aid*/}
-        <Button variant='warning' onClick={()=>navigate(`/question/${questionId}/edit/${props.answer.id}`)} ><Pencil /></Button><></>
+        <Button variant='warning' onClick={() => navigate(`/question/${questionId}/edit/${props.answer.id}`)} ><Pencil /></Button><></>
         <Button variant='danger' onClick={() => props.delAnswer(props.answer.id)}><Trash /></Button>
     </td>
 }

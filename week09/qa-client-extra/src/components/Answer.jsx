@@ -9,14 +9,14 @@ import { useNavigate, useParams, Link } from "react-router"
 
 function AnswersDisplay(props) {
 
-    //Hook to navigate to different routes
+    
     const navigate = useNavigate();
-    //Hook to extract the parameters from the current URL
     const params = useParams();
-    //Extracting the question ID from the URL parameters
     const questionId = params.qid;
 
     
+
+    // props.answers
     const ans = props.answers
     return <Table>
         <thead>
@@ -35,7 +35,7 @@ function AnswersDisplay(props) {
             <tr><td colSpan={5}>{/*
                 <AddEditAnswerForm_Uncontrolled key={editing ? editing.id : -1} mode={mode} editing={editing} addAnswer={props.addAnswer} editAnswer={props.editAnswer} switchToAdd={switchToAdd} />
                 */}
-                {/* Button to navigate to the add answer page */}
+
                 <Button variant="primary" onClick={()=>{navigate(`/question/${questionId}/add`)}} >Add new Answer</Button>
                 </td></tr>
         
@@ -71,7 +71,6 @@ function AnswerActionButtons(props) {
 
     return <td>
         <Button variant='primary' onClick={() => props.upVote(props.answer.id)}><ArrowUpSquare /></Button> <></>
-        { /* Button to navigate to the edit answer page with URL /question/:qid/edit/:aid*/}
         <Button variant='warning' onClick={()=>navigate(`/question/${questionId}/edit/${props.answer.id}`)} ><Pencil /></Button><></>
         <Button variant='danger' onClick={() => props.delAnswer(props.answer.id)}><Trash /></Button>
     </td>

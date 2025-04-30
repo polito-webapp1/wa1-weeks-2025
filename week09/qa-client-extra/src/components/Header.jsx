@@ -12,7 +12,6 @@ function Header(props) {
     </Container>
     
   </Navbar>
-  {/* We add Outlet to indicate where the child route components should be rendered inside the parent layout */}
   <Outlet/>
   
   </>)

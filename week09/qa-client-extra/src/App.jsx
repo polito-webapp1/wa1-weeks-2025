@@ -22,6 +22,10 @@ function App() {
   fakeAnswers.push(new Answer(10, 'ok', 'a@b.com', 100, '2025-04-01'))
   fakeAnswers.push(new Answer(11, 'it crashes', 'c@b.com', 101, '2025-03-31'))
 
+  // We use a fake logged user ID to simulate the logged user so that when we click on the Asked Questions
+  // we can filter the questions by the logged user
+  const fakeLoggedUser = 24
+
   // Context state
   const [lang, setLang] = useState('en')
   // useState({ lang: 'en', toggle : toggleLang})
@@ -56,7 +60,6 @@ function App() {
       const newId = Math.max(...prevAnswers.map(a => a.id)) + 1
       return [...prevAnswers, { ...ans, id: newId }]
     })
-    
   }
 
   const editAnswer = (ans) => {
@@ -74,14 +77,10 @@ function App() {
         {/* alternative: { lang: lang, toggle : toggleLang} */}
 
         <Routes>
-
-          {/* Main layout with Header always shown */}
           <Route path="/" element={<Header lang={lang} toggleLang={toggleLang} />}>
-
-            {/* Home page: show all questions */}
-            <Route index element={<ListQuestions question={question} />} />
-
-            {/* Question details page with its answers and footer */}
+            <Route index element={<ListQuestions question={question}/>} />
+            {/* We add another route that will display the questions asked by the fake logged user */}
+            <Route path="asked-questions" element={<ListQuestions question={question} fakeLoggedUser={fakeLoggedUser}/>} />
             <Route path="question/:qid" element={
               <>
                 <QuestionDisplay question={question} />
@@ -97,19 +96,14 @@ function App() {
             } >
 
             </Route>
-            {/* Add answer form in a separate page and questions are not displayed. */}
             <Route path="question/:qid/add" element={<AddEditAnswerForm_Uncontrolled
               addAnswer={addAnswer}
             />} />
-
-            {/* Edit answer form in a separate page and questions are not displayed. */}
             <Route path="question/:qid/edit/:aid" element={<AddEditAnswerForm_Uncontrolled
               addAnswer={addAnswer} editAnswer={editAnswer} answers={answers} />} />
+            
           </Route>
-
-          {/* Page for unknown URL */}
           <Route path="*" element={<h1>404 Page Not Found</h1>} />
-
         </Routes>
 
       </LanguageContext.Provider>
