@@ -1,7 +1,7 @@
 import { useActionState } from "react"
 import LanguageContext from "./LanguageContext"
 import { useContext } from "react"
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, Container } from "react-bootstrap"
 import { Answer } from "../models/QAModels.mjs"
 import dayjs from "dayjs"
 import { useNavigate, useParams } from "react-router"
@@ -61,7 +61,7 @@ function AddEditAnswerForm_Uncontrolled(props) {  // UN-CONTROLLED FORM
     if (lang=='it')
         msg = mode == 'add' ? 'Aggiungi una risposta' : 'Modifica la risposta ' + editing.id
 
-    return <>
+    return <Container fluid>
         <h3>{msg}</h3>
         <Form action={formAction}>
             <Form.Group>
@@ -79,7 +79,7 @@ function AddEditAnswerForm_Uncontrolled(props) {  // UN-CONTROLLED FORM
             </Button> <></>
             <Button variant='secondary' onClick={() => {navigate(-1)}}>Cancel</Button>
         </Form>
-    </>
+    </Container >
 }
 
 export default AddEditAnswerForm_Uncontrolled

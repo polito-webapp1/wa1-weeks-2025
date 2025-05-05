@@ -9,12 +9,12 @@ import { useNavigate, useParams, Link } from "react-router"
 
 function AnswersDisplay(props) {
 
-    
+
     const navigate = useNavigate();
     const params = useParams();
     const questionId = params.qid;
 
-    
+
 
     // props.answers
     const ans = props.answers
@@ -36,10 +36,10 @@ function AnswersDisplay(props) {
                 <AddEditAnswerForm_Uncontrolled key={editing ? editing.id : -1} mode={mode} editing={editing} addAnswer={props.addAnswer} editAnswer={props.editAnswer} switchToAdd={switchToAdd} />
                 */}
 
-                <Button variant="primary" onClick={()=>{navigate(`/question/${questionId}/add`)}} >Add new Answer</Button>
-                </td></tr>
-        
-                </tfoot>
+                <Button variant="primary" onClick={() => { navigate(`/question/${questionId}/add`) }} >Add new Answer</Button>
+            </td></tr>
+
+        </tfoot>
     </Table>
 }
 
@@ -48,7 +48,7 @@ function AnswerRow(props) {
 
     return <tr>
         <AnswerRowData answer={a} />
-        <AnswerActionButtons answer={a} delAnswer={props.delAnswer} upVote={props.upVote}  />
+        <AnswerActionButtons answer={a} delAnswer={props.delAnswer} upVote={props.upVote} />
     </tr>
 }
 
@@ -63,7 +63,7 @@ function AnswerRowData(props) {
 }
 
 function AnswerActionButtons(props) {
-    //question/:qid/edit/:aid
+    // question/:qid/edit/:aid
     const navigate = useNavigate();
     const params = useParams();
     const questionId = params.qid;
@@ -71,7 +71,7 @@ function AnswerActionButtons(props) {
 
     return <td>
         <Button variant='primary' onClick={() => props.upVote(props.answer.id)}><ArrowUpSquare /></Button> <></>
-        <Button variant='warning' onClick={()=>navigate(`/question/${questionId}/edit/${props.answer.id}`)} ><Pencil /></Button><></>
+        <Button variant='warning' onClick={() => navigate(`/question/${questionId}/edit/${props.answer.id}`)} ><Pencil /></Button> <></>
         <Button variant='danger' onClick={() => props.delAnswer(props.answer.id)}><Trash /></Button>
     </td>
 }
