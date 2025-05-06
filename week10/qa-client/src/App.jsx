@@ -5,10 +5,11 @@ import AnswersDisplay from './components/Answer'
 import ListQuestions from './components/ListQuestions'
 import { Question, Answer } from './models/QAModels.mjs'
 import AddEditAnswerForm_Uncontrolled from './components/AnswerForm'
+import { loadQuestions } from './API/API.js'
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import LanguageContext from './components/LanguageContext'
 import { Routes, Route, useNavigate } from 'react-router'
@@ -16,9 +17,6 @@ import { Routes, Route, useNavigate } from 'react-router'
 
 function App() {
 
-  // Fake Database of questions
-  const fakeQuestion1 = new Question(1, 'how are you?', 'me@mail.com', 24, '2025-04-01')
-  const fakeQuestion2 = new Question(2, 'what time is it?', 'user@mail.it', 25, '2025-05-05')
 
   const fakeAnswers = []
   fakeAnswers.push(new Answer(10, 'ok', 'a@b.com', 100, '2025-04-01'))
@@ -33,8 +31,14 @@ function App() {
   // useState({ lang: 'en', toggle : toggleLang})
 
   // Application state
-  const [questions, setQuestions] = useState([fakeQuestion1, fakeQuestion2])
-  const [answers, setAnswers] = useState(fakeAnswers)
+  const [questions, setQuestions] = useState([])
+
+  // Load the list of questions at application startup
+  useEffect(() => {
+    loadQuestions().then((dataLoaded) => {
+      setQuestions(dataLoaded)
+    })
+  }, [])
 
   //hook to navigate between pages
   const navigate = useNavigate();
@@ -45,7 +49,7 @@ function App() {
     setLang(oldLang => oldLang == 'en' ? 'it' : 'en')
   }
 
-
+/*
   // Handler functions for managing the 'answers' state
   const delAnswer = (id) => {
     setAnswers((prevAnswers) => prevAnswers.filter(a => a.id != id))
@@ -67,7 +71,7 @@ function App() {
     // console.log(ans)
     setAnswers((prevAnswers) => prevAnswers.map((a) => a.id != ans.id ? a : ans))
   }
-
+*/
   // const answersActions = { editAnswer, addAnswer, upVote, delAnswer }
   // we could store the different actions into one object, so that it's easier to pass down
   // and used like props.actions.editAnswer
@@ -79,18 +83,18 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Header lang={lang} toggleLang={toggleLang} />}>
-            <Route index element={<ListQuestions questions={questions}/>} />
+            <Route index element={<ListQuestions questions={questions} />} />
             {/* We add another route that will display the questions asked by the fake logged user */}
-            <Route path="asked-questions" element={<ListQuestions questions={questions} loggedUser={fakeLoggedUser}/>} />
+            <Route path="asked-questions" element={<ListQuestions questions={questions} loggedUser={fakeLoggedUser} />} />
             <Route path="question/:qid" element={
               <>
                 <QuestionDisplay questions={questions} />
                 <AnswersDisplay
-                  answers={answers}
+                  /* answers={answers}
                   delAnswer={delAnswer}
                   upVote={upVote}
                   addAnswer={addAnswer}
-                  editAnswer={editAnswer}
+                  editAnswer={editAnswer} */
                 />
                 <Footer />
               </>
@@ -98,11 +102,11 @@ function App() {
 
             </Route>
             <Route path="question/:qid/add" element={<AddEditAnswerForm_Uncontrolled
-              addAnswer={addAnswer}
+              /* addAnswer={addAnswer} */
             />} />
             <Route path="question/:qid/edit/:aid" element={<AddEditAnswerForm_Uncontrolled
-              addAnswer={addAnswer} editAnswer={editAnswer} answers={answers} />} />
-            
+              /* addAnswer={addAnswer} editAnswer={editAnswer} answers={answers}*/ />} />
+
           </Route>
           <Route path="*" element={<h1>404 Page Not Found</h1>} />
         </Routes>

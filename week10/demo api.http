@@ -1,0 +1,15 @@
+# Some Free/Fake APIs
+# https://apipheny.io/free-api/
+# https://app.beeceptor.com/mock-server/fake-json-api
+# https://sampleapis.com/
+
+
+GET https://fake-json-api.mock.beeceptor.com/users/33
+
+###
+
+GET https://fake-json-api.mock.beeceptor.com/users/
+
+###
+
+GET https://api.sampleapis.com/coffee/hot
