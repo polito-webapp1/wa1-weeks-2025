@@ -23,27 +23,45 @@ function loadQuestions_fake() {
 
 // real one, calls the API server
 async function loadQuestions() {
-    const response = await fetch(URI+'/questions')
-    const questions = await response.json()
-    console.log(questions)
-    return questions
+    try {
+        const response = await fetch(URI + '/questions')
+        if (response.ok) {
+            const questions = await response.json()
+            // console.log(questions)
+            return questions
+        } else {
+            throw new Error("Application error in loadQuestions")
+        }
+    } catch (ex) {
+        // console.log("Network error in loadQuestions", ex)
+        throw new Error("Network error in loadQuestions " + ex)
+    }
 }
 
 async function loadAnswers(qid) {
-    const response = await fetch(URI+`/questions/${qid}/answers`)
-    const answers = await response.json()
-    return answers.map( a => new Answer(a.id, a.text, a.email, undefined,a.date, a.score))
+    try {
+        const response = await fetch(URI + `/questions/${qid}/answers`)
+        if (response.ok) {
+            const answers = await response.json()
+            return answers.map(a => new Answer(a.id, a.text, a.email, undefined, a.date, a.score))
+        } else {
+            const error = await response.json()
+            throw new Error( error )
+        }
+    } catch (ex) {
+        throw new Error("Network error in loadQuestions " + ex)
+    }
 }
 
 async function upVote(aid) {
 
     const bodyObject = { 'vote': 'upvote' }
-    const response = await fetch(URI+`/answers/${aid}/vote`, {
+    const response = await fetch(URI + `/answers/${aid}/vote`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(bodyObject)        
+        body: JSON.stringify(bodyObject)
     })
     return true
 }

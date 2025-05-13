@@ -8,7 +8,7 @@ function QuestionDisplay(props) {
     const q = props.questions.filter(q => q.id == qid)[0]
 
     // props.question is a Question object
-    return <Container fluid>
+    return <>{q && <Container fluid>
         <Row >
             <Col as='h2'>Question number {qid}</Col>
             <Col>Asked by: <Badge pill>{q.email}</Badge></Col>
@@ -16,7 +16,7 @@ function QuestionDisplay(props) {
         <Row>
             <Col>{q.text}</Col>
         </Row>
-    </Container>
+    </Container>}</>
 
 }
 

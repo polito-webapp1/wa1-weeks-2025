@@ -32,11 +32,19 @@ function App() {
 
   // Application state
   const [questions, setQuestions] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
 
   // Load the list of questions at application startup
   useEffect(() => {
+    setErrMsg('')
+    setLoading(true)
     loadQuestions().then((dataLoaded) => {
       setQuestions(dataLoaded)
+      setLoading(false)
+    }).catch((ex)=>{
+      console.log("<App> received error:" + ex)
+      setErrMsg('Loading error... please try again')
     })
   }, [])
 
@@ -81,7 +89,10 @@ function App() {
       <LanguageContext.Provider value={lang}>
         {/* alternative: { lang: lang, toggle : toggleLang} */}
 
-        <Routes>
+        {errMsg && <div >{errMsg}</div>}
+        {loading && <div>...page loading...</div>}
+
+        {!errMsg && !loading && <Routes>
           <Route path="/" element={<Header lang={lang} toggleLang={toggleLang} />}>
             <Route index element={<ListQuestions questions={questions} />} />
             {/* We add another route that will display the questions asked by the fake logged user */}
@@ -109,7 +120,7 @@ function App() {
 
           </Route>
           <Route path="*" element={<h1>404 Page Not Found</h1>} />
-        </Routes>
+        </Routes>}
 
       </LanguageContext.Provider>
     </>

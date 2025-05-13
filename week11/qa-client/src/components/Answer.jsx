@@ -17,8 +17,18 @@ function AnswersDisplay(props) {
     const params = useParams();
     const questionId = params.qid;
 
-    useEffect( ()=>{
-        loadAnswers(questionId).then((ans)=>{setAnswers(ans)})
+    useEffect(  () => {
+        // loadAnswers(questionId).then((ans)=>{setAnswers(ans)})
+
+        const loader = async () => {
+            const ans = await loadAnswers(questionId)
+            setAnswers(ans)
+        }
+
+        loader()
+
+        // return ()=> {do some cleanup}
+
     }, [questionId])
 
     const doUpVote = async (id) => {

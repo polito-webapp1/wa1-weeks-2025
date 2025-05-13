@@ -19,7 +19,9 @@ app.use(cors());
 // GET /api/questions
 app.get('/api/questions', (request, response) => {
   listQuestions()
-  .then(questions => response.json(questions))
+  .then(questions => {
+    setTimeout( () => {response.json(questions)}, 2000)
+  })
   .catch(() => response.status(500).end());
 });
 
@@ -39,10 +41,15 @@ app.get('/api/questions/:id', async(req, res) => {
 // GET /api/questions/<id>/answers
 app.get('/api/questions/:id/answers', async (req, res) => {
   try {
+    const question = await getQuestion(req.params.id)
+    if(question?.error) {
+      res.status(500).json({error: question.error})
+    } else {
     const answers = await listAnswersOf(req.params.id);
     res.json(answers);
+    }
   } catch {
-    res.status(500).end();
+    res.status(500).json({error: "Database error"});
   }
 });
 
