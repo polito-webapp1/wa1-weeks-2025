@@ -1,0 +1,14 @@
+-/
+list of questions
+
+-question/:qid
+question + list of answers
+
+-question/:qid/add
+form to add a new answer
+
+-question/:qid/edit/:aid
+form to modify the answer with answer id == aid 
+
+-*
+Not Found page
